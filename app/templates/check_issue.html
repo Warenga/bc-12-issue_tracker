@@ -3,7 +3,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block page_content %}
-	<div class="saulu-issues">
+<div class="form col-md-5">
 	{% for issue in issues %}
 		<div class="saulu-issue">
 			<strong>Title:</strong>{{ issue.title }}
@@ -13,14 +13,9 @@
 			<strong>Department: </strong>{{ issue.department }}
 			<br>
 			<strong>Raised by: </strong>{{ issue.raised_by }}
-			{% if g.user.role == 'admin' %}
-			<a href="{{ url_for('main.check_issues') }}">view</a>
-			{% endif %}
 		</div>
 	{% endfor %}
-	</div>
 
-	<div class="btn">
-		<a href="{{ url_for('main.new_issue') }}">Raise an Issue</a>
-	</div>
+	{{ wtf.quick_form(check_form) }}
+</div>
 {% endblock %}

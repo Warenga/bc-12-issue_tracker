@@ -1,13 +1,13 @@
-"""Backref bug fixd 2
+"""User, Roles and Issue classes added
 
-Revision ID: 2d3f4de36b44
+Revision ID: a76b050c4059
 Revises: None
-Create Date: 2016-11-22 18:01:16.341000
+Create Date: 2016-11-22 18:47:00.202000
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '2d3f4de36b44'
+revision = 'a76b050c4059'
 down_revision = None
 
 from alembic import op

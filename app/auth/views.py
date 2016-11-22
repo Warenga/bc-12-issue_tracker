@@ -27,7 +27,8 @@ def signup():
 					email=user_form.email.data,
 					username=user_form.username.data,
 					password=user_form.password.data,
-					department=user_form.department.data)
+					department=user_form.department.data,
+					role_id=2)
 		db.session.add(user)
 		db.session.commit()
 		flash('Successful Registration')

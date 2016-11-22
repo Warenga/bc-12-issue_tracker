@@ -7,9 +7,15 @@ from wtforms import ValidationError
 class IssueForm(Form):
 	title = StringField('Title', validators=[Required()])
 	description = TextField('Description')
-	department = SelectField('Department', coerce=int, choices = [(1,'Operations'), (2,'Finance'),
-									(3,'Training'), (4,'Recruitment'),
-									(5,'Success'), (6,'Sales'),
-									(7,'Marketing')])
+	department = SelectField('Department', choices = [('Operations','Operations'), ('Finance','Finance'),
+									('Training','Training'), ('Recruitment','Recruitment'),
+									('Success','Success'), ('Sales','Sales'),
+									('Marketing','Marketing')])
 	priority = RadioField('Priority', choices=[('High','High'), ('Medium','Medium'), ('Low','Low')])
 	submit = SubmitField('Submit')
+
+class MarkIssueForm(Form):
+	assigned_to = StringField('Assign to: ')
+	progress = SelectField('Progress', choices=[('resolved','resolved'), ('in-progress','in-progress')])
+	submit = SubmitField('Submit')
+

@@ -17,10 +17,10 @@ class SignupForm(Form):
 	email = StringField('Email', validators=[Required(), Length(1, 50), Email()])
 	password = PasswordField('Password', validators=[Required(), EqualTo('confirm_password')])
 	confirm_password = PasswordField('Confirm Password', validators=[Required()])
-	department = SelectField('Department', coerce=int, choices = [(1,'Operations'), (2,'Finance'),
-									(3,'Training'), (4,'Recruitment'),
-									(5,'Success'), (6,'Sales'),
-									(7,'Marketing')])
+	department = SelectField('Department', choices = [('Operations','Operations'), ('Finance','Finance'),
+									('Training','Training'), ('Recruitment','Recruitment'),
+									('Success','Success'), ('Sales','Sales'),
+									('Marketing','Marketing')])
 	submit = SubmitField('Sign up')
 
 	def validate_email(self, field):
