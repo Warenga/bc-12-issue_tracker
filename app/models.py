@@ -1,5 +1,6 @@
 import hashlib
 from . import db, login_manager
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin, AnonymousUserMixin, current_app
 from flask import request
 
@@ -19,7 +20,7 @@ class User(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	email = db.Column(db.String(64), unique=True)
 	username = db.Column(db.String(64), unique=True)
-	password_harsh = db.Column(db.String(128))
+	password_hash = db.Column(db.String(128))
 	first_name = db.Column(db.String(64))
 	second_name = db.Column(db.String(64))
 	department = db.Column(db.String(64))
@@ -36,7 +37,6 @@ class User(UserMixin, db.Model):
 
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
-
 
 	@login_manager.user_loader
 	def load_user(user_id):

@@ -1,17 +1,18 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from . import auth
 from .. import db
 from ..models import User
 from .forms import SigninForm, SignupForm
+from flask.ext.login import login_user, logout_user
 
 @auth.route('/signin', methods=['GET', 'POST'])
 def signin():
 	user_form = SigninForm()
 	if user_form.validate_on_submit():
-		user = User.query.filter_by(username=user_form.username.data)
-		if user is not None and user.verify_password(form.password.data):
+		user = User.query.filter_by(username=user_form.username.data).first()
+		if user is not None and user.verify_password(user_form.password.data):
 			flash('Welcome %s' % user.username)
-			login_user(user, form.remember_me.data)
+			login_user(user, user_form.remember_me.data)
 			return 'Successful login'
 		flash('Invalid username or password')
 	return render_template('auth/signin.html', user_form=user_form)
@@ -20,15 +21,15 @@ def signin():
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
 	user_form = SignupForm()
-	user_form.department.choices = [(1,'Operations'), (2,'Finance'), (3,'Training'), (4,'Recruitment'), (5,'Success'), (6,'Sales'), (7,'Marketing')]
 	if user_form.validate_on_submit():
-		user = User(first_name=form.first_name.data,
-					second_name=form.second_name.data,
-					email=form.email.data,
-					username=form.username.data,
-					password=form.password.data,
-					department=form.department.data)
+		user = User(first_name=user_form.first_name.data,
+					second_name=user_form.second_name.data,
+					email=user_form.email.data,
+					username=user_form.username.data,
+					password=user_form.password.data,
+					department=user_form.department.data)
 		db.session.add(user)
+		db.session.commit()
 		flash('Successful Registration')
 		return redirect(url_for('auth.signin'))
 	

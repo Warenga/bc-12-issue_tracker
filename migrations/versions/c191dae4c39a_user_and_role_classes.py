@@ -1,13 +1,13 @@
-"""is_admin property added
+"""User and Role classes
 
-Revision ID: 3072f6441b64
+Revision ID: c191dae4c39a
 Revises: None
-Create Date: 2016-11-22 11:52:33.726000
+Create Date: 2016-11-22 13:33:46.871000
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '3072f6441b64'
+revision = 'c191dae4c39a'
 down_revision = None
 
 from alembic import op
@@ -26,7 +26,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=64), nullable=True),
     sa.Column('username', sa.String(length=64), nullable=True),
-    sa.Column('password_harsh', sa.String(length=128), nullable=True),
+    sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.Column('first_name', sa.String(length=64), nullable=True),
     sa.Column('second_name', sa.String(length=64), nullable=True),
     sa.Column('department', sa.String(length=64), nullable=True),
