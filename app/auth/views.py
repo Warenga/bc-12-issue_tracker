@@ -13,7 +13,7 @@ def signin():
 		if user is not None and user.verify_password(user_form.password.data):
 			flash('Welcome %s' % user.username)
 			login_user(user, user_form.remember_me.data)
-			return 'Successful login'
+			return redirect(url_for('main.homepage'))
 		flash('Invalid username or password')
 	return render_template('auth/signin.html', user_form=user_form)
 

@@ -11,9 +11,6 @@ class Role(db.Model):
 
 	users =  db.relationship('User', backref='role', lazy='dynamic')
 
-	def __repr__(self):
-		return '%r' % self.name
-
 
 class User(UserMixin, db.Model):
 	__tablename__= 'users'
@@ -23,9 +20,12 @@ class User(UserMixin, db.Model):
 	password_hash = db.Column(db.String(128))
 	first_name = db.Column(db.String(64))
 	second_name = db.Column(db.String(64))
-	department = db.Column(db.String(64))
-	is_admin = db.Boolean(False)
+	department = db.Column(db.String(20))
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+	issues = db.relationship('Issues', backref='raised_by', lazy='dynamic')
+	
+	def __repr__(self):
+		return '%r' % self.username
 
 	@property
 	def password(self):
@@ -41,3 +41,17 @@ class User(UserMixin, db.Model):
 	@login_manager.user_loader
 	def load_user(user_id):
 		return User.query.get(int(user_id))
+
+class Issues(db.Model):
+	__tablename__= 'issues'
+	issue_id = db.Column(db.Integer, primary_key=True)
+	title = db.Column(db.String(64))
+	description = db.Column(db.Text)
+	department = db.Column(db.String(20))
+	priority = db.Column(db.String(20))
+	raised_by = db.Column(db.String(20))
+	assigned_to = db.Column(db.Integer, db.ForeignKey('users.id'))
+	state = db.Column(db.Boolean(), default=False)
+	progress = db.Column(db.String(20))
+
+
