@@ -1,8 +1,7 @@
-import hashlib
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask.ext.login import UserMixin, AnonymousUserMixin, current_app
-from flask import request
+from flask.ext.login import UserMixin
+from flask import session, current_app
 
 class Role(db.Model):
 	__tablename__='roles'
@@ -22,10 +21,11 @@ class User(UserMixin, db.Model):
 	second_name = db.Column(db.String(64))
 	department = db.Column(db.String(20))
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-	issues = db.relationship('Issues', backref='raised_by', lazy='dynamic')
+	issue = db.relationship('Issues', backref='raised_by')
 	
 	def __repr__(self):
 		return '%r' % self.username
+
 
 	@property
 	def password(self):
@@ -49,9 +49,10 @@ class Issues(db.Model):
 	description = db.Column(db.Text)
 	department = db.Column(db.String(20))
 	priority = db.Column(db.String(20))
-	raised_by = db.Column(db.String(20))
-	assigned_to = db.Column(db.Integer, db.ForeignKey('users.id'))
+	assigned_to = db.Column(db.String(20))
 	state = db.Column(db.Boolean(), default=False)
 	progress = db.Column(db.String(20))
+	raised_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-
+	def __repr__(self):
+		return '%r' % self.title

@@ -1,13 +1,13 @@
-"""User, Role and Issue Classes
+"""Backref bug fixd 2
 
-Revision ID: 063ebfae7d97
+Revision ID: 2d3f4de36b44
 Revises: None
-Create Date: 2016-11-22 17:00:55.832000
+Create Date: 2016-11-22 18:01:16.341000
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '063ebfae7d97'
+revision = '2d3f4de36b44'
 down_revision = None
 
 from alembic import op
@@ -42,11 +42,11 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('department', sa.String(length=20), nullable=True),
     sa.Column('priority', sa.String(length=20), nullable=True),
-    sa.Column('raised_by', sa.String(length=20), nullable=True),
-    sa.Column('assigned_to', sa.Integer(), nullable=True),
+    sa.Column('assigned_to', sa.String(length=20), nullable=True),
     sa.Column('state', sa.Boolean(), nullable=True),
     sa.Column('progress', sa.String(length=20), nullable=True),
-    sa.ForeignKeyConstraint(['assigned_to'], ['users.id'], ),
+    sa.Column('raised_by_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['raised_by_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('issue_id')
     )
     ### end Alembic commands ###
