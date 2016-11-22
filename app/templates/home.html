@@ -13,7 +13,7 @@
 			<strong>Department: </strong>{{ issue.department }}
 			<br>
 			<strong>Raised by: </strong>{{ issue.raised_by }}
-			{% if g.user.role == 'admin' %}
+			{% if current_user.role == 'admin' %}
 			<a href="{{ url_for('main.check_issues') }}">view</a>
 			{% endif %}
 		</div>

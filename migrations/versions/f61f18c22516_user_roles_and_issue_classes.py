@@ -1,13 +1,13 @@
-"""User, Roles and Issue classes added
+"""User, Roles and Issue classes
 
-Revision ID: a76b050c4059
+Revision ID: f61f18c22516
 Revises: None
-Create Date: 2016-11-22 18:47:00.202000
+Create Date: 2016-11-22 20:23:03.308000
 
 """
 
 # revision identifiers, used by Alembic.
-revision = 'a76b050c4059'
+revision = 'f61f18c22516'
 down_revision = None
 
 from alembic import op

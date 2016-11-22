@@ -1,5 +1,4 @@
 .saulu-issues {
-	display: block;
 	margin-left:50px;
 	width: 300px;
 	padding-top: 20px;
@@ -8,7 +7,6 @@
 
 
 .saulu-issue {
-	display: block;
 	margin: 0 10px;
 	background-color: #fff;
 	box-shadow: 0 3px 3px 0 #efefef;
