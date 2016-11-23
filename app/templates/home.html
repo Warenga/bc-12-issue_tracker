@@ -13,14 +13,22 @@
 			<strong>Department: </strong>{{ issue.department }}
 			<br>
 			<strong>Raised by: </strong>{{ issue.raised_by }}
-			{% if current_user.role == 'admin' %}
-			<a href="{{ url_for('main.check_issues') }}">view</a>
+			<br>
+			<strong>Priority: </strong>{{ issue.priority }}
+			{% if current_user.role.id == 1 %}
+				<br>
+				<strong>Assigned_to: </strong>{{ issue.assigned_to }}
+				<br>
+				<strong>Progress: </strong>{{ issue.progress }}
+				<a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a>
 			{% endif %}
 		</div>
 	{% endfor %}
 	</div>
 
 	<div class="btn">
-		<a href="{{ url_for('main.new_issue') }}">Raise an Issue</a>
+		{% if current_user.role.id == 2 %}
+			<a href="{{ url_for('main.new_issue') }}">Raise an Issue</a>
+		{% endif %}
 	</div>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import session, g, render_template, redirect, url_for, request, flash
+from flask import session, render_template, redirect, url_for, request, flash
 from . import main
 from .. import db
 from ..models import Issues
@@ -9,7 +9,10 @@ from .decorators import required_roles
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def homepage():
-	issues = Issues.query.all()
+	if current_user.role.id == 1:
+		issues = Issues.query.filter_by(department=current_user.department).all()
+	else:
+		issues = Issues.query.all()
 	return render_template('home.html', issues=issues)
 
 @main.route('/new_issue', methods=['GET', 'POST'])
@@ -29,8 +32,7 @@ def new_issue():
 	return render_template('new_issue.html', issue_form=issue_form)
 
 
-@main.route('/admin_view', methods=['GET','POST'])
-@required_roles('Admin')
+@main.route('/admin_view/<int:id>', methods=['GET','POST'])
 def check_issues(id):
 	issue = Issues.query.get_or_404(id)
 	check_form = MarkIssueForm()
@@ -39,5 +41,5 @@ def check_issues(id):
 		issue.progress = check_form.progress.data
 		db.session.add(issue)
 		db.session.commit()
-		return redirect(url_for('.index'))
-	return render_template('check_issues.html', issues=[issue], check_form=check_form) 
+		return redirect(url_for('.homepage'))
+	return render_template('check_issue.html', issues=[issue], check_form=check_form) 

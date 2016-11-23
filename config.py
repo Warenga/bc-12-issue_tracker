@@ -1,4 +1,6 @@
 import os
+# from app.models import Role, User
+# from . import db
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -6,6 +8,24 @@ class Config:
 	SECRET_KEY = 'The sky is not blue at night'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+		
+	# # static database declarations
+	# 	# Roles
+	# admin_role = Role(name='Admin')
+	# user_role = Role(name='User')
+
+	# db.session.add(admin_role)
+	# db.session.commit()
+
+	# 	# Admin users
+	# admin_operations = User(username='admin', email='admin_operations@gmail.com', 
+	# 							department='Operations', password='operations', role=admin_role)
+	# admin_finance = User(username='admin', email='admin_finance@gmail.com', 
+	# 							department='Finance', password='finance', role=admin_role)
+
+	# db.session.add_all([admin_operations, admin_finance])
+	# db.session.commit()
+	
 	@staticmethod
 	def init_app(app):
 		pass

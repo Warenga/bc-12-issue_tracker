@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
 	__tablename__= 'users'
 	id = db.Column(db.Integer, primary_key=True)
 	email = db.Column(db.String(64), unique=True)
-	username = db.Column(db.String(64), unique=True)
+	username = db.Column(db.String(64))
 	password_hash = db.Column(db.String(128))
 	first_name = db.Column(db.String(64))
 	second_name = db.Column(db.String(64))
@@ -45,7 +45,7 @@ class User(UserMixin, db.Model):
 
 class Issues(db.Model):
 	__tablename__= 'issues'
-	issue_id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(64))
 	description = db.Column(db.Text)
 	department = db.Column(db.String(20))

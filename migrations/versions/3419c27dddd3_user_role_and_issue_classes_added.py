@@ -1,13 +1,13 @@
-"""User, Roles and Issue classes
+"""User, Role and Issue classes added
 
-Revision ID: f61f18c22516
+Revision ID: 3419c27dddd3
 Revises: None
-Create Date: 2016-11-22 20:23:03.308000
+Create Date: 2016-11-23 08:35:34.761000
 
 """
 
 # revision identifiers, used by Alembic.
-revision = 'f61f18c22516'
+revision = '3419c27dddd3'
 down_revision = None
 
 from alembic import op
@@ -33,11 +33,10 @@ def upgrade():
     sa.Column('role_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['role_id'], ['roles.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('username')
+    sa.UniqueConstraint('email')
     )
     op.create_table('issues',
-    sa.Column('issue_id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=64), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('department', sa.String(length=20), nullable=True),
@@ -47,7 +46,7 @@ def upgrade():
     sa.Column('progress', sa.String(length=20), nullable=True),
     sa.Column('raised_by_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['raised_by_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('issue_id')
+    sa.PrimaryKeyConstraint('id')
     )
     ### end Alembic commands ###
 
