@@ -8,14 +8,42 @@
 		<div class="saulu-issue">
 			<strong>Title:</strong>{{ issue.title }}
 			<br>
-			<strong>Description: </strong>{{ issue.description }}
+			<strong>Description: </strong>
+			{% if issue.description %}
+				{{ issue.description }}
+			{% else %}
+				no description
 			<br>
+			{% endif %}
 			<strong>Department: </strong>{{ issue.department }}
 			<br>
 			<strong>Raised by: </strong>{{ issue.raised_by }}
 		</div>
+	
+		<div class="form" id="form1">
+			<form method=post>
+			<br>
+			<br>
+			{{ check_form.hidden_tag() }}
+			{% if issue.assigned_to == None %}
+				{{ check_form.assigned_to }}
+			{% else %}
+				<strong>Assigned to: </strong>{{ issue.assigned_to }}
+			{% endif %}
+			<br>
+			{% if issue.progress == None %}
+				{{ check_form.progress }}
+			{% else %}
+				<strong>Progress: </strong>{{ issue.progress }}
+			{% endif %}
+			<br>
+			{% if issue.comment == None or issue.comment == '' %}
+				<a href="#">add comment?</a>
+			{% else %}
+				<strong>Comment: </strong>{{ issue.comment }}
+			{% endif %}
+			</form>		
+		</div>
 	{% endfor %}
-
-	{{ wtf.quick_form(check_form) }}
 </div>
 {% endblock %}
