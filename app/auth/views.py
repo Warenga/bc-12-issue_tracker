@@ -6,13 +6,13 @@ from .forms import SigninForm, SignupForm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
 @auth.route('/signin', methods=['GET', 'POST'])
-def signin():
+def login():
 	user_form = SigninForm()
 	if user_form.validate_on_submit():
 		user = User.query.filter_by(username=user_form.username.data).first()
 		if user is not None and user.verify_password(user_form.password.data):
 			login_user(user, user_form.remember_me.data)
-			return redirect(url_for('main.homepage'))
+			return redirect(request.args.get('next') or url_for('main.homepage'))
 		flash('Invalid username or password')
 	return render_template('auth/signin.html', user_form=user_form)
 
@@ -30,11 +30,11 @@ def signup():
 		db.session.add(user)
 		db.session.commit()
 		flash('Successful Registration')
-		return redirect(url_for('auth.signin'))
+		return redirect(url_for('auth.login'))
 	return render_template('auth/signup.html', user_form=user_form)
 
 @auth.route('/signout')
 @login_required
 def signout():
 	logout_user()
-	return redirect(url_for('auth.signin'))
+	return redirect(url_for('auth.login'))

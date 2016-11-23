@@ -1,0 +1,14 @@
+Dear {{ issues.raised_by }},
+
+This is to notify you that {{ issues.department }} admin
+has viewed and responded to your issue
+	issue id: {{ issues.id }}
+	issue: {{ issues.title }}
+	department sent: {{ issues.department }}
+
+To view response go to <a href='#'>url for issue</>
+
+
+Regards,
+
+Saulu Admin

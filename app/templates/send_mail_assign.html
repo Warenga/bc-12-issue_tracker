@@ -1,0 +1,15 @@
+<p> Dear {{ issues.assigned_to }}, </p>
+
+<p> Issue </p>
+	<br>
+	<li><strong>issue id: </strong> <h4>{{ issues.id }}</h4></li>
+	<br>
+	<li><strong>issue: </strong> <h4>{{ issues.title }}</h4></li>
+	<br>
+	<li><strong>sent to: </strong> <h4>{{ issues.department }}</h4></li>
+<br>
+
+Has been raised. Please view the details and notify me when solved.
+
+<p> Regards, </p>
+<p> Saulu Admin {{ current_user.user }}</p>

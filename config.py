@@ -2,27 +2,18 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+ADMINS = ['saulu.tracker@gmail.com']
+
 class Config:
 	SECRET_KEY = 'The sky is not blue at night'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-		
-	# # static database declarations
-	# 	# Roles
-	# admin_role = Role(name='Admin')
-	# user_role = Role(name='User')
+	MAIL_SERVER = 'smtp.gmail.com'
+	MAIL_PORT = 465
+	MAIL_USE_SSL = True
+	MAIL_USERNAME = 'saulu.tracker@gmail.com'
+	MAIL_PASSWORD = 'tracker.saulu'
 
-	# db.session.add(admin_role)
-	# db.session.commit()
-
-	# 	# Admin users
-	# admin_operations = User(username='admin', email='admin_operations@gmail.com', 
-	# 							department='Operations', password='operations', role=admin_role)
-	# admin_finance = User(username='admin', email='admin_finance@gmail.com', 
-	# 							department='Finance', password='finance', role=admin_role)
-
-	# db.session.add_all([admin_operations, admin_finance])
-	# db.session.commit()
 
 	@staticmethod
 	def init_app(app):

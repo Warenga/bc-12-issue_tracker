@@ -1,10 +1,11 @@
-from flask import session, render_template, redirect, url_for, request, flash
+from flask import session, g, render_template, redirect, url_for, request, flash
 from . import main
 from .. import db
 from ..models import Issues
 from .forms import IssueForm, MarkIssueForm
 from flask.ext.login import current_user, login_required
 from .decorators import required_roles
+from ..email import notify_user, assign_issue
 
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
@@ -16,6 +17,7 @@ def homepage():
 	return render_template('home.html', issues=issues)
 
 @main.route('/new_issue', methods=['GET', 'POST'])
+@login_required
 def new_issue():
 	issue_form = IssueForm()
 	if issue_form.validate_on_submit():
@@ -34,6 +36,8 @@ def new_issue():
 
 
 @main.route('/admin_view/<int:id>', methods=['GET','POST'])
+@login_required
+@required_roles(2)
 def check_issues(id):
 	issue = Issues.query.get_or_404(id)
 	check_form = MarkIssueForm()
@@ -47,5 +51,7 @@ def check_issues(id):
 		issue.comment = check_form.comment.data
 		db.session.add(issue)
 		db.session.commit()
+		notify_user(issue)
+		assign_issue(issue)
 		return redirect(url_for('.homepage'))
 	return render_template('check_issue.html', issues=[issue], check_form=check_form) 

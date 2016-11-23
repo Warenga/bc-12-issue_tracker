@@ -1,0 +1,11 @@
+Dear {{ issues.assigned_to }},
+
+Issue
+	issue id: {{ issues.id }} 
+	issue: {{ issues.title }}
+	sent to department: {{ issues.department }}
+
+Has been raised. Please view the details and notify me when solved.
+
+Regards, 
+Saulu Admin {{ current_user.user }}
