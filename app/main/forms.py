@@ -16,6 +16,7 @@ class IssueForm(Form):
 
 class MarkIssueForm(Form):
 	assigned_to = StringField('Assign to: ')
-	progress = SelectField('Progress', choices=[('resolved','resolved'), ('in-progress','in-progress')])
+	progress = SelectField('Progress', choices=[('resolved','resolved'), ('in-progress','in-progress'), ('not assigned','not assigned')])
+	comment = TextField('Comment')
 	submit = SubmitField('Submit')
 

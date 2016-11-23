@@ -3,7 +3,7 @@ from . import auth
 from .. import db
 from ..models import User
 from .forms import SigninForm, SignupForm
-from flask.ext.login import login_user, logout_user
+from flask.ext.login import login_user, logout_user, current_user, login_required
 
 @auth.route('/signin', methods=['GET', 'POST'])
 def signin():
@@ -11,7 +11,6 @@ def signin():
 	if user_form.validate_on_submit():
 		user = User.query.filter_by(username=user_form.username.data).first()
 		if user is not None and user.verify_password(user_form.password.data):
-			flash('Welcome %s' % user.username)
 			login_user(user, user_form.remember_me.data)
 			return redirect(url_for('main.homepage'))
 		flash('Invalid username or password')
@@ -33,3 +32,9 @@ def signup():
 		flash('Successful Registration')
 		return redirect(url_for('auth.signin'))
 	return render_template('auth/signup.html', user_form=user_form)
+
+@auth.route('/signout')
+@login_required
+def signout():
+	logout_user()
+	return redirect(url_for('auth.signin'))

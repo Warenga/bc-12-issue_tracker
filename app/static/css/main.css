@@ -6,10 +6,22 @@
 }
 
 
-.saulu-issue {
-	margin: 0 10px;
+.saulu-issue-open {
+	margin-left: 100px;
 	background-color: #fff;
 	box-shadow: 0 3px 3px 0 #efefef;
 	padding: 20px;
 
 }
+
+.saulu-issue-closed {
+	margin-left: 300px;
+	background-color: #fff;
+	box-shadow: 0 3px 3px 0 #efefef;
+	padding: 20px;
+
+}
+
+
+
+

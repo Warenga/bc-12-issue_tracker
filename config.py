@@ -1,6 +1,4 @@
 import os
-# from app.models import Role, User
-# from . import db
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -25,7 +23,7 @@ class Config:
 
 	# db.session.add_all([admin_operations, admin_finance])
 	# db.session.commit()
-	
+
 	@staticmethod
 	def init_app(app):
 		pass

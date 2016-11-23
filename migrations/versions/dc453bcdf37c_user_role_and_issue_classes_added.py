@@ -1,13 +1,13 @@
 """User, Role and Issue classes added
 
-Revision ID: 3419c27dddd3
+Revision ID: dc453bcdf37c
 Revises: None
-Create Date: 2016-11-23 08:35:34.761000
+Create Date: 2016-11-23 10:41:35.206000
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '3419c27dddd3'
+revision = 'dc453bcdf37c'
 down_revision = None
 
 from alembic import op
@@ -42,7 +42,7 @@ def upgrade():
     sa.Column('department', sa.String(length=20), nullable=True),
     sa.Column('priority', sa.String(length=20), nullable=True),
     sa.Column('assigned_to', sa.String(length=20), nullable=True),
-    sa.Column('state', sa.Boolean(), nullable=True),
+    sa.Column('state', sa.String(length=10), nullable=True),
     sa.Column('progress', sa.String(length=20), nullable=True),
     sa.Column('raised_by_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['raised_by_id'], ['users.id'], ),

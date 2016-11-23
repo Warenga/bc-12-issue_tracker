@@ -11,8 +11,8 @@
 	<link rel="stylesheet" type="text/css" href="static/css/main.css">
 <!-- External Stylesheets -->
 	<!-- Bootstrap cdn -->
-	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
+	<link rel="stylesheet"
+	href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 {% endblock %}
 
 {% block scripts %}
@@ -26,6 +26,13 @@
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand waves-effect waves-light" href="#">Saulu</a>
+
+			<div class='nav navbar-nav navbar-right'>
+				<!-- Needs debugging -->
+				{% if current_user.is_authenticated %}
+					<a href="{{ url_for('auth.signout') }}">sign out</a>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 </nav>
@@ -34,7 +41,7 @@
 {% block content %}
 	<div class="contianer-fluid" id="body">
 		{% for message in get_flashed_messages() %}
-			<div class="aler aler-warning">
+			<div class="alert aler-warning">
 				<button type="button" class="close" data-dismiss="alert">&times</button>
 				{{ message }}
 			</div>

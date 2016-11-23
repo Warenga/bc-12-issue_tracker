@@ -22,6 +22,7 @@ class SignupForm(Form):
 									('Success','Success'), ('Sales','Sales'),
 									('Marketing','Marketing')])
 	submit = SubmitField('Sign up')
+	
 
 	def validate_email(self, field):
 		if User.query.filter_by(email=field.data).first():

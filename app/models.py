@@ -47,12 +47,13 @@ class Issues(db.Model):
 	__tablename__= 'issues'
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(64))
-	description = db.Column(db.Text)
+	description = db.Column(db.Text(100))
 	department = db.Column(db.String(20))
 	priority = db.Column(db.String(20))
 	assigned_to = db.Column(db.String(20))
-	state = db.Column(db.Boolean(), default=False)
+	state = db.Column(db.String(10))
 	progress = db.Column(db.String(20))
+	comment = db.Column(db.Text(100))
 	raised_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 	def __repr__(self):

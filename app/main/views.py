@@ -23,7 +23,8 @@ def new_issue():
 						description=issue_form.description.data,
 						department=issue_form.department.data,
 						priority=issue_form.priority.data,
-						raised_by = current_user._get_current_object()
+						raised_by = current_user._get_current_object(),
+						state = 'open'
 						)
 		db.session.add(issue)
 		db.session.commit()
@@ -39,6 +40,11 @@ def check_issues(id):
 	if request.method == 'POST' and check_form.validate():
 		issue.assigned_to = check_form.assigned_to.data
 		issue.progress = check_form.progress.data
+		if issue.progress == 'resolved':
+			issue.state = 'closed'
+		else:
+			issue.state = 'open'
+		issue.comment = check_form.comment.data
 		db.session.add(issue)
 		db.session.commit()
 		return redirect(url_for('.homepage'))

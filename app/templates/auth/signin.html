@@ -10,7 +10,7 @@
 	<div class="col-md-12">
 		{{ wtf.quick_form(user_form) }}
 		
-		{% if current_user.role == 2  %}
+		{% if current_user.role != 1  %}
 		<p>
 			New user?
 			<a href="{{ url_for('auth.signup') }}">Sign up</a>
