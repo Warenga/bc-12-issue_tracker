@@ -21,18 +21,18 @@
 		</div>
 	
 		<div class="form" id="form1">
-			<form method=post>
+			<form method='post'>
 			<br>
 			<br>
 			{{ check_form.hidden_tag() }}
 			{% if issue.assigned_to == None %}
-				{{ check_form.assigned_to (class_="u-full-width", placeholder="Assign to", maxlength=60) }}
+				{{ wtf.form_field(check_form.assigned_to) }}
 			{% else %}
 				<strong>Assigned to: </strong>{{ issue.assigned_to }}
 			{% endif %}
 			<br>
 			{% if issue.progress == None %}
-				{{ check_form.progress (class_="u-full-width", placeholder="Progress", maxlength=60) }}
+				{{ wtf.form_field(check_form.progress) }}
 			{% else %}
 				<strong>Progress: </strong>{{ issue.progress }}
 			{% endif %}
@@ -42,7 +42,8 @@
 			{% else %}
 				<strong>Comment: </strong>{{ issue.comment }}
 			{% endif %}
-			{{ check_form.submit  (class="btn btn-default") }}
+			<br>
+			{{ wtf.form_field(check_form.submit) }}
 			</form>		
 		</div>
 	{% endfor %}

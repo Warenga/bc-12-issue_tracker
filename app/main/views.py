@@ -99,4 +99,6 @@ def resolve(id):
 		return redirect(url_for('.homepage'))
 	return render_template('home.html', issues=[issue], resolve_form=resolve_form)
 
+
+
 	

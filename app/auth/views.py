@@ -5,6 +5,10 @@ from ..models import User
 from .forms import SigninForm, SignupForm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
+@auth.route('/')
+def landing_page():
+	return render_template('landing_page.html')
+
 @auth.route('/signin', methods=['GET', 'POST'])
 def login():
 	user_form = SigninForm()
