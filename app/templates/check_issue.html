@@ -42,6 +42,7 @@
 			{% else %}
 				<strong>Comment: </strong>{{ issue.comment }}
 			{% endif %}
+			{{ check_form.submit  (class="btn btn-default") }}
 			</form>		
 		</div>
 	{% endfor %}

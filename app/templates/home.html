@@ -21,87 +21,132 @@
 			{% endif %}
 	</div>
 	<div class="container-fluid" style="padding: 20px;">
-	<div class="panel panel-default">
+	<div class="panel panel-danger">
 		<div class="panel-heading">Open</div>
 		<div class="panel-body">
 			<i>Issues not resolved</i>
 		</div>
-		{% for issue in open_issues %}
-				<ul class="list-group">
+		<table class="table"> 
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Department</th>
+						<th>Priority</th>
+						<th>Raised by</th>
+						<th>Assigned to</th>
+						<th>Progress</th>
+					</tr> 
+				</thead>
+			{% for issue in open_issues %}
+			
+				<tbody>
 				{% if current_user.role.id == 3 %}
-					<li class="list-group-item">
-						<strong>Title: </strong> {{ issue.title }}
-						<strong>Description: </strong> {{ issue.description }}
-						<strong>Priority: </strong> {{ issue.priority }}
-						<strong>Comment: </strong> {{ issue.comment }}
-						<a href="#">resolved</a>
-					</li>
+					<tr>
+						<th scope="row"> {{ issue.id }} </th>
+						<td> {{ issue.title }} </td>
+						<td> {{ issue.description }} </td>
+						<td> {{ issue.priority }} </td>
+						<td> {{ issue.comment }} </td>
+						<td> <a href="#">resolved</a> </td>
+					</tr>
 				{% else %}
-					<li class="list-group-item">
-					<strong>Title:</strong>{{ issue.title }}
-					{% if issue.description %}
-					<strong>Description: </strong>{{ issue.description }}
-					{% endif %}
-					<strong>Department: </strong>{{ issue.department }}
-					<strong>Raised by: </strong>{{ issue.raised_by }}
-					<strong>Priority: </strong>{{ issue.priority }}
+					<tr>
+						<th scope="row"> {{ issue.id }} </th>
+						<td>{{ issue.title }}</td>
+						{% if issue.description %}
+							<td>{{ issue.description }}</td>
+						{% endif %}
+						<td>{{ issue.department }}</td>
+						<td>{{ issue.priority }}</td>
+						
+						<td>{{ issue.raised_by }}</td>
+						{% if issue.assigned_to  %}
+							<td>{{ issue.assigned_to }}</td>
+						{% else %}
+							<td></td>
+						{% endif %}
+						{% if issue.progress %}	
+						<td>{{ issue.progress }}</td>
+						{% else %}
+							<td></td>
+						{% endif %}
+						{% if issue.comment %}
+						<td>{{ issue.comment }}</td>
+						{% endif %}
 
-					{% if issue.progress %}	
-					<strong>Progress: </strong>{{ issue.progress }}
-					{% endif %}
-					{% if issue.comment %}
-					<strong>Comment: </strong>{{ issue.comment }}
-					{% endif %}
-
-					{% if current_user.role.id == 1 %}
-							<strong>Assigned_to: </strong>{{ issue.assigned_to }}
-						<a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a>
-					{% endif %}
+						{% if current_user.role.id == 1 %}
+							<td><a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a></td>
+						{% endif %}
+					</tr>
 				{% endif %}
-			</ul>
-		{% endfor %}
+				</tbody>
+			{% endfor %}
+			</table>
+		
 	</div>
 
-	<div class="panel panel-default">
+	<div class="panel panel-success">
 		<div class="panel-heading">Closed</div>
 		<div class="panel-body">
 			<i>Issues resolved</i>
 		</div>
 		{% for issue in closed_issues %}
-				<ul class="list-group">
-				{% if current_user.role.id == 3 %}
-					<li class="list-group-item">
-						<strong>Title: </strong> {{ issue.title }}
-						<strong>Description: </strong> {{ issue.description }}
-						<strong>Priority: </strong> {{ issue.priority }}
-						<strong>Comment: </strong> {{ issue.comment }}
-						<a href="#">resolved</a>
-					</li>
-				{% else %}
-					<li class="list-group-item">
-					<strong>Title:</strong>{{ issue.title }}
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Title</th>
+					<th>Description</th>
+					<th>Department</th>
+					<th>Priority</th>
+					<th>Raised by</th>
+					<th>Assigned to</th>
+					<th>Progress</th>
+				</tr> 
+			</thead>
+
+			<tbody>
+			{% if current_user.role.id == 3 %}
+				<tr>
+					<th scope="row"> {{ issue.id }} </th>
+					<td> {{ issue.title }} </td>
+					<td> {{ issue.description }} </td>
+					<td> {{ issue.priority }} </td>
+					<td> {{ issue.comment }} </td>
+					<td> <a href="#">resolved</a> </td>
+				</tr>
+			{% else %}
+				<tr>
+					<th scope="row"> {{ issue.id }} </th>
+					<td>{{ issue.title }}</td>
 					{% if issue.description %}
-					<strong>Description: </strong>{{ issue.description }}
+						<td>{{ issue.description }}</td>
 					{% endif %}
-					<strong>Department: </strong>{{ issue.department }}
-					<strong>Raised by: </strong>{{ issue.raised_by }}
-					<strong>Priority: </strong>{{ issue.priority }}
+					<td>{{ issue.department }}</td>
+					<td>{{ issue.priority }}</td>
+					<td>{{ issue.raised_by }}</td>
+					{% if issue.assigned_to %}
+						<td>{{ issue.assigned_to }}</td>
+					{% endif %}
 
 					{% if issue.progress %}	
-					<strong>Progress: </strong>{{ issue.progress }}
-					{% endif %}
-					{% if issue.comment %}
-					<strong>Comment: </strong>{{ issue.comment }}
+						<td>{{ issue.progress }}</td>
 					{% endif %}
 
-					{% if current_user.role.id == 1 %}
-							<strong>Assigned_to: </strong>{{ issue.assigned_to }}
-						<a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a>
+					{% if issue.comment %}
+						<td>{{ issue.comment }}</td>
 					{% endif %}
-					</li>
-				{% endif %}
-			</ul>
+				
+					{% if current_user.role.id == 1 %}
+						<td><a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a></td>
+					{% endif %}
+				</tr>
+			{% endif %}
+			</tbody>
 		{% endfor %}
+		</table>
 	</div>
-	</div>
+</div>
 {% endblock %}
