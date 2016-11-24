@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SelectField, Submi
 from wtforms.validators import Required, Email, Length, EqualTo
 from ..models import Issues
 from wtforms import ValidationError
+from flask.ext.login import current_user
 
 class IssueForm(Form):
 	title = StringField('Title', validators=[Required()])
@@ -15,13 +16,23 @@ class IssueForm(Form):
 	submit = SubmitField('Submit')
 
 class MarkIssueForm(Form):
-	assigned_to = StringField('Assign to: ', validators=[Length(1, 50), Email()])
+	assigned_to = SelectField('Assign to: ')
 	progress = SelectField('Progress', choices=[('not assigned', 'not assigned'),
 						('resolved','resolved'), ('in-progress','in-progress')])
 	comment = TextField('Comment')
 	submit = SubmitField('Submit')
 
-class ResolveIssue(Form):
-	progress = SelectField('Progress', choices=[('resolved','resolved'), ('in-progress','in-progress')])
+	def __init__(self):
+		super(MarkIssueForm, self).__init__()
 
+		from ..models import User
+		self.assigned_to.choices = [(user.email, user.username) for user in
+				(User.query
+				.filter_by(role_id=3)
+				.filter_by(department=current_user.department)
+				)]
+
+class ResolveForm(Form):
+	progress = StringField('Progress')
+	submit = SubmitField('Submit')
 

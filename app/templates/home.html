@@ -40,16 +40,37 @@
 					</tr> 
 				</thead>
 			{% for issue in open_issues %}
-			
+				{% if issue.id == None %}
+					<tr>
+						<p>No open issues</p>
+					</tr>
+				{% else %}
 				<tbody>
 				{% if current_user.role.id == 3 %}
 					<tr>
 						<th scope="row"> {{ issue.id }} </th>
-						<td> {{ issue.title }} </td>
-						<td> {{ issue.description }} </td>
-						<td> {{ issue.priority }} </td>
-						<td> {{ issue.comment }} </td>
-						<td> <a href="#">resolved</a> </td>
+						<td>{{ issue.title }}</td>
+						{% if issue.description %}
+							<td>{{ issue.description }}</td>
+
+						{% endif %}
+
+						<td>{{ issue.department }}</td>
+						<td>{{ issue.priority }}</td>
+						
+						<td>{{ issue.raised_by }}</td>
+						{% if issue.assigned_to  %}
+							<td>{{ issue.assigned_to }}</td>
+						{% else %}
+							<td></td>
+						{% endif %}
+						{% if issue.progress %}	
+							<td>{{ issue.progress }}</td>
+						<td>{{ resolve_form.submit }}</td>
+						{% endif %}
+						{% if issue.comment %}
+						<td>{{ issue.comment }}</td>
+						{% endif %}
 					</tr>
 				{% else %}
 					<tr>
@@ -82,6 +103,7 @@
 					</tr>
 				{% endif %}
 				</tbody>
+				{% endif %}
 			{% endfor %}
 			</table>
 		
@@ -111,11 +133,28 @@
 			{% if current_user.role.id == 3 %}
 				<tr>
 					<th scope="row"> {{ issue.id }} </th>
-					<td> {{ issue.title }} </td>
-					<td> {{ issue.description }} </td>
-					<td> {{ issue.priority }} </td>
-					<td> {{ issue.comment }} </td>
-					<td> <a href="#">resolved</a> </td>
+						<td>{{ issue.title }}</td>
+						{% if issue.description %}
+							<td>{{ issue.description }}</td>
+						{% endif %}
+			
+						<td>{{ issue.department }}</td>
+						<td>{{ issue.priority }}</td>
+						
+						<td>{{ issue.raised_by }}</td>
+						{% if issue.assigned_to  %}
+							<td>{{ issue.assigned_to }}</td>
+						{% else %}
+							<td></td>
+						{% endif %}
+						{% if issue.progress %}	
+						<td>{{ issue.progress }}</td>
+						{% else %}
+							<td></td>
+						{% endif %}
+						{% if issue.comment %}
+						<td>{{ issue.comment }}</td>
+						{% endif %}
 				</tr>
 			{% else %}
 				<tr>

@@ -1,8 +1,8 @@
 from flask import session, g, render_template, redirect, url_for, request, flash
 from . import main
 from .. import db
-from ..models import Issues, State
-from .forms import IssueForm, MarkIssueForm
+from ..models import Issues, State, User
+from .forms import IssueForm, MarkIssueForm, ResolveForm
 from flask.ext.login import current_user, login_required
 from .decorators import required_roles
 from ..email import notify_user, assign_issue
@@ -63,7 +63,7 @@ def issue_state(id):
 
 @main.route('/admin_view/<int:id>', methods=['GET','POST'])
 @login_required
-@required_roles(2)
+@required_roles(1)
 def check_issues(id):
 	issue = Issues.query.get_or_404(id)
 	check_form = MarkIssueForm()
@@ -81,3 +81,22 @@ def check_issues(id):
 		assign_issue(issue)
 		return redirect(url_for('.homepage'))
 	return render_template('check_issue.html', issues=[issue], check_form=check_form)
+
+@main.route('/issue/progress/<int:id>', methods=['GET', 'POST'])
+@login_required
+@required_roles(3)
+def resolve(id):
+	issue = Issues.query.get_or_404(id)
+	resolve_form = ResolveForm() 
+	if resolve_form.validate_on_submit():
+		issue.progress = 'resolved'
+		if issue.progress == 'resolved':
+			issue.state = 'closed'
+		else:
+			issue.state = 'open'
+		db.session.add(issue)
+		db.session.commit()
+		return redirect(url_for('.homepage'))
+	return render_template('home.html', issues=[issue], resolve_form=resolve_form)
+
+	
