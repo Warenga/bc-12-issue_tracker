@@ -3,7 +3,26 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block page_content %}
-<div class="form col-md-5">
-	{{ wtf.quick_form(issue_form) }}
-</div>
+	<div class="container-fluid" >
+				{% if current_user.role.id == 1 %}
+				<ul class="nav nav-tabs">
+					<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">issues raised</a></li>
+				</ul>
+				{% elif current_user.role.id == 3 %}
+				<ul class="nav nav-tabs">
+					<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
+				</ul>
+				{% else %}
+				<ul class="nav nav-tabs">
+					<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
+					<li role='presentation'><a href="{{ url_for( 'main.new_issue') }}">Raise an issue</a></li>
+				</ul>
+				{% endif %}
+	</div>
+	<div class="container-fluid" style="padding: 20px;">
+		<div class="form col-md-5">
+		{{ wtf.quick_form(issue_form) }}
+	</div>
+	</div>
+
 {% endblock %}

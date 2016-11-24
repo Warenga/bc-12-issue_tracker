@@ -1,0 +1,20 @@
+<div class="container-fluid">
+			{% if  %}
+			{% if current_user.role.id == 1 %}
+			<ul class="nav nav-tabs">
+				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">issues raised</a></li>
+			</ul>
+			{% elif current_user.role.id == 3 %}
+			<ul class="nav nav-tabs">
+				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
+			</ul>
+			{% else %}
+			<ul class="nav nav-tabs">
+				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
+				<li role='presentation'><a href="{{ url_for( 'main.new_issue') }}">Raise an issue</a></li>
+			</ul>
+			{% endif %}
+			<div class="container" style="margin-top: 20px;">
+				{% block page_content %}{% endblock %}
+			</div>
+</div>

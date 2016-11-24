@@ -16,7 +16,12 @@ class IssueForm(Form):
 
 class MarkIssueForm(Form):
 	assigned_to = StringField('Assign to: ', validators=[Length(1, 50), Email()])
-	progress = SelectField('Progress', choices=[('resolved','resolved'), ('in-progress','in-progress'), ('not assigned','not assigned')])
+	progress = SelectField('Progress', choices=[('not assigned', 'not assigned'),
+						('resolved','resolved'), ('in-progress','in-progress')])
 	comment = TextField('Comment')
 	submit = SubmitField('Submit')
+
+class ResolveIssue(Form):
+	progress = SelectField('Progress', choices=[('resolved','resolved'), ('in-progress','in-progress')])
+
 

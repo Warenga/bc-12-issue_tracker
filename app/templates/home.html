@@ -1,81 +1,107 @@
+
 {% extends 'base.html' %}
 
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block page_content %}
-	<div class="saulu-issues col-md-12">
-		<div class="col-md-6" style="color: red;">
-			<h3>Open</h3>
-		</div>
-		<div class="col-md-6" style="color: green;">
-			<h3>Closed</h3>
-		</div>
-	{% for issue in issues %}
-		{% if issue.state == 'open'  %}
-			<div class="col-md-6" id='open'>
-			<strong>Title:</strong>{{ issue.title }}
-			<br>
-			{% if issue.description %}
-			<strong>Description: </strong>{{ issue.description }}
-			<br>
-			{% endif %}
-			<strong>Department: </strong>{{ issue.department }}
-			<br>
-			<strong>Raised by: </strong>{{ issue.raised_by }}
-			<br>
-			<strong>Priority: </strong>{{ issue.priority }}
-			<br>
-
-			{% if issue.progress %}	
-			<strong>Progress: </strong>{{ issue.progress }}
-			{% endif %}
-			{% if issue.comment %}
-			<strong>Comment: </strong>{{ issue.comment }}
-			{% endif %}
-
+	<div class="container-fluid" >
 			{% if current_user.role.id == 1 %}
-				<br>
-					<strong>Assigned_to: </strong>{{ issue.assigned_to }}
-				<a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a>
+			<ul class="nav nav-tabs">
+				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">issues raised</a></li>
+			</ul>
+			{% elif current_user.role.id == 3 %}
+			<ul class="nav nav-tabs">
+				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
+			</ul>
+			{% else %}
+			<ul class="nav nav-tabs">
+				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
+				<li role='presentation'><a href="{{ url_for( 'main.new_issue') }}">Raise an issue</a></li>
+			</ul>
 			{% endif %}
-			<br>
-		{% else %}
-		<div class="col-md-6" id='closed'>
-			<strong>Title:</strong>{{ issue.title }}
-			<br>
-			{% if issue.description %}
-			<strong>Description: </strong>{{ issue.description }}
-			<br>
-			{% endif %}
-			<strong>Department: </strong>{{ issue.department }}
-			<br>
-			
-			<strong>Priority: </strong>{{ issue.priority }}
-			<br>
-
-			{% if issue.progress %}	
-			<strong>Progress: </strong>{{ issue.progress }}
-			{% endif %}
-			<br>
-			{% if issue.comment %}
-			<strong>Comment: </strong>{{ issue.comment }}
-			{% endif %}
-			
-			{% if current_user.role.id == 1 %}
-				<strong>Raised by: </strong>{{ issue.raised_by }}
-				<br>
-				<strong>Assigned_to: </strong>{{ issue.assigned_to }}
-				<br>
-				<a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a>
-			{% endif %}
-		{% endif %}
+	</div>
+	<div class="container-fluid" style="padding: 20px;">
+	<div class="panel panel-default">
+		<div class="panel-heading">Open</div>
+		<div class="panel-body">
+			<i>Issues not resolved</i>
 		</div>
-	{% endfor %}
+		{% for issue in open_issues %}
+				<ul class="list-group">
+				{% if current_user.role.id == 3 %}
+					<li class="list-group-item">
+						<strong>Title: </strong> {{ issue.title }}
+						<strong>Description: </strong> {{ issue.description }}
+						<strong>Priority: </strong> {{ issue.priority }}
+						<strong>Comment: </strong> {{ issue.comment }}
+						<a href="#">resolved</a>
+					</li>
+				{% else %}
+					<li class="list-group-item">
+					<strong>Title:</strong>{{ issue.title }}
+					{% if issue.description %}
+					<strong>Description: </strong>{{ issue.description }}
+					{% endif %}
+					<strong>Department: </strong>{{ issue.department }}
+					<strong>Raised by: </strong>{{ issue.raised_by }}
+					<strong>Priority: </strong>{{ issue.priority }}
+
+					{% if issue.progress %}	
+					<strong>Progress: </strong>{{ issue.progress }}
+					{% endif %}
+					{% if issue.comment %}
+					<strong>Comment: </strong>{{ issue.comment }}
+					{% endif %}
+
+					{% if current_user.role.id == 1 %}
+							<strong>Assigned_to: </strong>{{ issue.assigned_to }}
+						<a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a>
+					{% endif %}
+				{% endif %}
+			</ul>
+		{% endfor %}
 	</div>
 
-	<div class="btn">
-		{% if current_user.role.id == 2 %}
-			<a href="{{ url_for('main.new_issue') }}">Raise an Issue</a>
-		{% endif %}
+	<div class="panel panel-default">
+		<div class="panel-heading">Closed</div>
+		<div class="panel-body">
+			<i>Issues resolved</i>
+		</div>
+		{% for issue in closed_issues %}
+				<ul class="list-group">
+				{% if current_user.role.id == 3 %}
+					<li class="list-group-item">
+						<strong>Title: </strong> {{ issue.title }}
+						<strong>Description: </strong> {{ issue.description }}
+						<strong>Priority: </strong> {{ issue.priority }}
+						<strong>Comment: </strong> {{ issue.comment }}
+						<a href="#">resolved</a>
+					</li>
+				{% else %}
+					<li class="list-group-item">
+					<strong>Title:</strong>{{ issue.title }}
+					{% if issue.description %}
+					<strong>Description: </strong>{{ issue.description }}
+					{% endif %}
+					<strong>Department: </strong>{{ issue.department }}
+					<strong>Raised by: </strong>{{ issue.raised_by }}
+					<strong>Priority: </strong>{{ issue.priority }}
+
+					{% if issue.progress %}	
+					<strong>Progress: </strong>{{ issue.progress }}
+					{% endif %}
+					{% if issue.comment %}
+					<strong>Comment: </strong>{{ issue.comment }}
+					{% endif %}
+
+					{% if current_user.role.id == 1 %}
+							<strong>Assigned_to: </strong>{{ issue.assigned_to }}
+						<a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a>
+					{% endif %}
+					</li>
+				{% endif %}
+			</ul>
+		{% endfor %}
+	</div>
 	</div>
 {% endblock %}

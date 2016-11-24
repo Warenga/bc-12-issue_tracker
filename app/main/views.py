@@ -1,7 +1,7 @@
 from flask import session, g, render_template, redirect, url_for, request, flash
 from . import main
 from .. import db
-from ..models import Issues
+from ..models import Issues, State
 from .forms import IssueForm, MarkIssueForm
 from flask.ext.login import current_user, login_required
 from .decorators import required_roles
@@ -11,10 +11,27 @@ from ..email import notify_user, assign_issue
 @login_required
 def homepage():
 	if current_user.role.id == 1:
-		issues = Issues.query.filter_by(department=current_user.department).all()
+		open_issues = (Issues.query 
+						.filter_by(department=current_user.department)
+						.filter_by(state='open')
+						)
+		closed_issues = (Issues.query 
+						.filter_by(department=current_user.department)
+						.filter_by(state='closed')
+						)
+	elif current_user.role.id == 3:
+		open_issues = (Issues.query
+						.filter_by(assigned_to=current_user.email)
+						.filter_by(state='open')
+						)
+		closed_issues = (Issues.query
+						.filter_by(assigned_to=current_user.email)
+						.filter_by(state='closed')
+						)
 	else:
-		issues = Issues.query.all()
-	return render_template('home.html', issues=issues)
+		open_issues = Issues.query.filter_by(state='open').all()
+		closed_issues = Issues.query.filter_by(state='closed').all()
+	return render_template('home.html', open_issues=open_issues, closed_issues=closed_issues)
 
 @main.route('/new_issue', methods=['GET', 'POST'])
 @login_required
@@ -26,14 +43,23 @@ def new_issue():
 						department=issue_form.department.data,
 						priority=issue_form.priority.data,
 						raised_by = current_user._get_current_object(),
-						state = 'open'
+						state= 'open'
 						)
 		db.session.add(issue)
+		db.session.commit()
+		state = State(state=issue.state, issue_id=issue.id)
+		db.session.add(state)
 		db.session.commit()
 		flash('You issue has been raised. You shall get feedback soon')
 		return redirect(url_for('.homepage'))
 	return render_template('new_issue.html', issue_form=issue_form)
 
+@main.route('/state/<int:id>', methods=['GET', 'POST'])
+@login_required
+def issue_state(id):
+	issue = Issues.get_or_404(id)
+	state = issue.state.order_by.all()
+	return render_template('new_issue.html', issues=[issue], states=state)
 
 @main.route('/admin_view/<int:id>', methods=['GET','POST'])
 @login_required
@@ -54,4 +80,4 @@ def check_issues(id):
 		notify_user(issue)
 		assign_issue(issue)
 		return redirect(url_for('.homepage'))
-	return render_template('check_issue.html', issues=[issue], check_form=check_form) 
+	return render_template('check_issue.html', issues=[issue], check_form=check_form)

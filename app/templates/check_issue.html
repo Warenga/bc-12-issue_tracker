@@ -26,13 +26,13 @@
 			<br>
 			{{ check_form.hidden_tag() }}
 			{% if issue.assigned_to == None %}
-				{{ check_form.assigned_to }}
+				{{ check_form.assigned_to (class_="u-full-width", placeholder="Assign to", maxlength=60) }}
 			{% else %}
 				<strong>Assigned to: </strong>{{ issue.assigned_to }}
 			{% endif %}
 			<br>
 			{% if issue.progress == None %}
-				{{ check_form.progress }}
+				{{ check_form.progress (class_="u-full-width", placeholder="Progress", maxlength=60) }}
 			{% else %}
 				<strong>Progress: </strong>{{ issue.progress }}
 			{% endif %}
