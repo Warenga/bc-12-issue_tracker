@@ -32,8 +32,14 @@ def home_page():
 		open_issues = Issues.query.all()
 		closed_issues = Issues.query.all()
 	else:
-		open_issues = Issues.query.filter_by(state='open').all()
-		closed_issues = Issues.query.filter_by(state='closed').all()
+		open_issues = (Issues.query
+						.filter_by(raised_by=current_user)
+						.filter_by(state='open')
+						)
+		closed_issues = (Issues.query
+						.filter_by(raised_by=current_user)
+						.filter_by(state='closed')
+						)
 	return render_template('home.html', open_issues=open_issues, closed_issues=closed_issues)
 
 @main.route('/home_social', methods=['GET', 'POST'])
