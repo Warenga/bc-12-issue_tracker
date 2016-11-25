@@ -29,25 +29,14 @@
 				<form method='post'>
 				{{ check_form.hidden_tag() }}
 				<div class="panel-body">
-					{% if issue.assigned_to == None %}
-						{{ wtf.form_field(check_form.assigned_to) }}
-					{% else %}
-						<strong>Assigned to: </strong>{{ issue.assigned_to }}
-					{% endif %}
+					{{ wtf.form_field(check_form.assigned_to) }}
 				</div>
 				<div class="panel-body">
-					{% if issue.progress == None %}
-						{{ wtf.form_field(check_form.progress ) }}
-					{% else %}
-						<strong>Progress: </strong> {{ issue.progress }}
-					{% endif %}
+					{{ wtf.form_field(check_form.progress ) }}
+
 				</div>
 				<div class="panel-body">
-					{% if issue.comment == None or issue.comment == '' %}
-						{{ wtf.form_field(check_form.comment ) }}
-					{% else %}
-						<strong>Comment: </strong>{{ issue.comment }}
-					{% endif %}
+					{{ wtf.form_field(check_form.comment ) }}
 				</div>
 				<div class="panel-body">
 					{{ check_form.submit (class="btn btn-warning") }}

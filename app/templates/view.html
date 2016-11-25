@@ -3,7 +3,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block page_content %}
-	<div class="container-fluid" >
+	<div class="container-fluid">
 		<ul class="nav nav-tabs">
 			<li role='presentation'>
 				<a href="{{ url_for( 'main.home_page') }}" class="btn btn-warning">View all issues</a>
@@ -19,4 +19,28 @@
 			</li>
 		</ul>
 	</div>
+	<table class="table"> 
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Second Name</th>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Department</th>
+				<th>role_id</th>
+			</tr> 
+		</thead>
+		{% for users in users %}
+			<tbody>
+				<tr>
+					<td>{{ users.first_name }}</td>
+					<td>{{ users.second_name }}</td>
+					<td>{{ users.username }}</td>
+					<td>{{ users.email }}</td>
+					<td>{{ users.department }}</td>
+					<td>{{ users.role.id }}</td>
+				</tr>
+			</tbody>
+		{% endfor %}
+	</table>
 {% endblock %}

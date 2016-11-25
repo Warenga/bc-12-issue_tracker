@@ -32,13 +32,13 @@
 		{% if current_user.is_authenticated %}
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<p>{{ current_user.username }}</p>
+						<a href="{{ url_for('auth.sign_out') }}">
+							Sign Out
+						</a>
 					</li>
-				<li>
-					<a href="{{ url_for('auth.sign_out') }}" class="waves-effect waves-light">
-						Sign Out
-					</a>
-				</li>
+					<li>
+						<span class="waves-effect waves-light"><p>{{ current_user.username }}</p></span>
+					</li>
 		{% endif %}
 		</div>
 	</div>
@@ -49,7 +49,7 @@
 	<div class="saulu-background">
 		<div class="contianer-fluid" id="body">
 		{% for message in get_flashed_messages() %}
-			<div class="alert alert-warning col-md-4" style="margin-left: 370px; padding-left: 100px; height: 10px;">
+			<div class="alert alert-warning col-md-4" style="margin-left: 370px; padding-left: 100px; margin-top:0; height: 15px;">
 				<strong>{{ message }}</strong>
 			</div>
 		{% endfor %}
