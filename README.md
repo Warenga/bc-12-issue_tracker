@@ -46,8 +46,8 @@ To login as Admin the username is admin_<department> password <department>.
 for example Sales department: username = <i>admin_sale</i> password = <i>sale</i>
 
 Super Admin:
-username = super
-password = super
+username = <i>super</i>
+password = <i>super</i>
 	
 
 ### Run it locally
