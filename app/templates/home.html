@@ -7,16 +7,24 @@
 	<div class="container-fluid" >
 			{% if current_user.role.id == 1 %}
 			<ul class="nav nav-tabs">
-				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">issues raised</a></li>
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.home_page') }}" class="btn btn-warning">issues raised</a>
+				</li>
 			</ul>
 			{% elif current_user.role.id == 3 %}
 			<ul class="nav nav-tabs">
-				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.home_page') }}" class="btn btn-warning">View my issues</a>
+				</li>
 			</ul>
 			{% else %}
 			<ul class="nav nav-tabs">
-				<li role='presentation' class="active"><a href="{{ url_for( 'main.homepage') }}">View my issues</a></li>
-				<li role='presentation'><a href="{{ url_for( 'main.new_issue') }}">Raise an issue</a></li>
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.home_page') }}" class="btn btn-warning">View my issues</a>
+				</li>
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.new_issue') }}" class="btn btn-success">Raise an issue</a>
+				</li>
 			</ul>
 			{% endif %}
 	</div>
@@ -24,12 +32,13 @@
 	<div class="panel panel-danger">
 		<div class="panel-heading">Open</div>
 		<div class="panel-body">
-			<i>Issues not resolved</i>
+			<span style="color: red;">
+			<strong><i>Issues not resolved</i></strong>
+			</span>
 		</div>
 		<table class="table"> 
 				<thead>
 					<tr>
-						<th>#</th>
 						<th>Title</th>
 						<th>Description</th>
 						<th>Department</th>
@@ -48,7 +57,6 @@
 				<tbody>
 				{% if current_user.role.id == 3 %}
 					<tr>
-						<th scope="row"> {{ issue.id }} </th>
 						<td>{{ issue.title }}</td>
 						{% if issue.description %}
 							<td>{{ issue.description }}</td>
@@ -66,7 +74,7 @@
 						{% endif %}
 						{% if issue.progress %}	
 							<td>{{ issue.progress }}</td>
-						<td>{{ resolve_form.submit }}</td>
+						<td><a href="#">resolve</a></td>
 						{% endif %}
 						{% if issue.comment %}
 						<td>{{ issue.comment }}</td>
@@ -74,7 +82,6 @@
 					</tr>
 				{% else %}
 					<tr>
-						<th scope="row"> {{ issue.id }} </th>
 						<td>{{ issue.title }}</td>
 						{% if issue.description %}
 							<td>{{ issue.description }}</td>
@@ -98,7 +105,7 @@
 						{% endif %}
 
 						{% if current_user.role.id == 1 %}
-							<td><a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a></td>
+							<td><a href="{{ url_for('main.check_issues', id=issue.id) }}" class="btn btn-warning">view</a></td>
 						{% endif %}
 					</tr>
 				{% endif %}
@@ -112,13 +119,13 @@
 	<div class="panel panel-success">
 		<div class="panel-heading">Closed</div>
 		<div class="panel-body">
-			<i>Issues resolved</i>
+			<span style="color: green;">
+			<strong><i>Issues resolved</i></strong>
+			</span>
 		</div>
-		{% for issue in closed_issues %}
 		<table class="table">
 			<thead>
 				<tr>
-					<th>#</th>
 					<th>Title</th>
 					<th>Description</th>
 					<th>Department</th>
@@ -128,37 +135,35 @@
 					<th>Progress</th>
 				</tr> 
 			</thead>
-
+			{% for issue in closed_issues %}
 			<tbody>
 			{% if current_user.role.id == 3 %}
 				<tr>
-					<th scope="row"> {{ issue.id }} </th>
-						<td>{{ issue.title }}</td>
-						{% if issue.description %}
-							<td>{{ issue.description }}</td>
-						{% endif %}
-			
-						<td>{{ issue.department }}</td>
-						<td>{{ issue.priority }}</td>
-						
-						<td>{{ issue.raised_by }}</td>
-						{% if issue.assigned_to  %}
-							<td>{{ issue.assigned_to }}</td>
-						{% else %}
-							<td></td>
-						{% endif %}
-						{% if issue.progress %}	
-						<td>{{ issue.progress }}</td>
-						{% else %}
-							<td></td>
-						{% endif %}
-						{% if issue.comment %}
-						<td>{{ issue.comment }}</td>
-						{% endif %}
+					<td>{{ issue.title }}</td>
+					{% if issue.description %}
+						<td>{{ issue.description }}</td>
+					{% endif %}
+		
+					<td>{{ issue.department }}</td>
+					<td>{{ issue.priority }}</td>
+					
+					<td>{{ issue.raised_by }}</td>
+					{% if issue.assigned_to  %}
+						<td>{{ issue.assigned_to }}</td>
+					{% else %}
+						<td></td>
+					{% endif %}
+					{% if issue.progress %}	
+					<td>{{ issue.progress }}</td>
+					{% else %}
+						<td></td>
+					{% endif %}
+					{% if issue.comment %}
+					<td>{{ issue.comment }}</td>
+					{% endif %}
 				</tr>
 			{% else %}
 				<tr>
-					<th scope="row"> {{ issue.id }} </th>
 					<td>{{ issue.title }}</td>
 					{% if issue.description %}
 						<td>{{ issue.description }}</td>
@@ -166,20 +171,22 @@
 					<td>{{ issue.department }}</td>
 					<td>{{ issue.priority }}</td>
 					<td>{{ issue.raised_by }}</td>
-					{% if issue.assigned_to %}
+					{% if issue.assigned_to  %}
 						<td>{{ issue.assigned_to }}</td>
+					{% else %}
+						<td></td>
 					{% endif %}
-
 					{% if issue.progress %}	
-						<td>{{ issue.progress }}</td>
+					<td>{{ issue.progress }}</td>
+					{% else %}
+						<td></td>
 					{% endif %}
-
 					{% if issue.comment %}
-						<td>{{ issue.comment }}</td>
+					<td>{{ issue.comment }}</td>
 					{% endif %}
 				
 					{% if current_user.role.id == 1 %}
-						<td><a href="{{ url_for('main.check_issues', id=issue.id) }}">view</a></td>
+						<td><a href="{{ url_for('main.check_issues', id=issue.id) }}" class="btn btn-warning">view</a></td>
 					{% endif %}
 				</tr>
 			{% endif %}

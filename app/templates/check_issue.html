@@ -1,51 +1,61 @@
-{% extends 'base.html' %}
+{% extends'base.html' %}
 
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block page_content %}
-<div class="form col-md-5">
-	{% for issue in issues %}
-		<div class="saulu-issue">
-			<strong>Title:</strong>{{ issue.title }}
-			<br>
-			<strong>Description: </strong>
-			{% if issue.description %}
-				{{ issue.description }}
-			{% else %}
-				no description
-			<br>
-			{% endif %}
-			<strong>Department: </strong>{{ issue.department }}
-			<br>
-			<strong>Raised by: </strong>{{ issue.raised_by }}
-		</div>
-	
-		<div class="form" id="form1">
-			<form method='post'>
-			<br>
-			<br>
-			{{ check_form.hidden_tag() }}
-			{% if issue.assigned_to == None %}
-				{{ wtf.form_field(check_form.assigned_to) }}
-			{% else %}
-				<strong>Assigned to: </strong>{{ issue.assigned_to }}
-			{% endif %}
-			<br>
-			{% if issue.progress == None %}
-				{{ wtf.form_field(check_form.progress) }}
-			{% else %}
-				<strong>Progress: </strong>{{ issue.progress }}
-			{% endif %}
-			<br>
-			{% if issue.comment == None or issue.comment == '' %}
-				<a href="#">add comment?</a>
-			{% else %}
-				<strong>Comment: </strong>{{ issue.comment }}
-			{% endif %}
-			<br>
-			{{ wtf.form_field(check_form.submit) }}
+<div class="container" style="max-width: 100%;">
+
+	<div class="panel-group">
+		<div class="panel panel-default col-md-5">
+		{% for issue in issues %}
+			<div class="panel-body">
+				<strong>Title:</strong>  {{ issue.title }}
+			</div>
+			<div class="panel-body">
+				<strong>Description: </strong>
+				{% if issue.description %}
+					{{ issue.description }}
+				{% else %}
+					no description
+				{% endif %}
+			</div>
+			<div class="panel-body">
+				<strong>Department: </strong> {{ issue.department }}
+			</div>
+			<div class="panel-body">
+				<strong>Raised by: </strong> {{ issue.raised_by }}
+			</div>
+			<div class="form" id="form1">
+				<form method='post'>
+				{{ check_form.hidden_tag() }}
+				<div class="panel-body">
+					{% if issue.assigned_to == None %}
+						{{ wtf.form_field(check_form.assigned_to) }}
+					{% else %}
+						<strong>Assigned to: </strong>{{ issue.assigned_to }}
+					{% endif %}
+				</div>
+				<div class="panel-body">
+					{% if issue.progress == None %}
+						{{ wtf.form_field(check_form.progress ) }}
+					{% else %}
+						<strong>Progress: </strong> {{ issue.progress }}
+					{% endif %}
+				</div>
+				<div class="panel-body">
+					{% if issue.comment == None or issue.comment == '' %}
+						{{ wtf.form_field(check_form.comment ) }}
+					{% else %}
+						<strong>Comment: </strong>{{ issue.comment }}
+					{% endif %}
+				</div>
+				<div class="panel-body">
+					{{ check_form.submit (class="btn btn-warning") }}
+				</div>
 			</form>		
-		</div>
-	{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+	
 </div>
 {% endblock %}

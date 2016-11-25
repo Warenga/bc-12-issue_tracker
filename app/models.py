@@ -29,6 +29,8 @@ class User(UserMixin, db.Model):
 	def __repr__(self):
 		return self.username.encode('utf-8')
 
+	def is_anonymous(self):
+		return False
 
 	@property
 	def password(self):

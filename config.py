@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 ADMINS = ['saulu.tracker@gmail.com']
 
 class Config:
+	WTF_CSRF_ENABLED = True
 	SECRET_KEY = 'The sky is not blue at night'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 

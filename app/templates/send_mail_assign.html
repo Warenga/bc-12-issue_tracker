@@ -1,15 +1,14 @@
 <p> Dear {{ issues.assigned_to }}, </p>
 
 <p> Issue </p>
+<ul>
+	<li><strong>issue id: </strong> {{ issues.id }}</li>
 	<br>
-	<li><strong>issue id: </strong> <h4>{{ issues.id }}</h4></li>
+	<li><strong>issue: </strong> {{ issues.title }}</li>
 	<br>
-	<li><strong>issue: </strong> <h4>{{ issues.title }}</h4></li>
-	<br>
-	<li><strong>sent to: </strong> <h4>{{ issues.department }}</h4></li>
-<br>
-
-Has been raised. Please view the details and notify me when solved.
+	<li><strong>sent to: </strong>{{ issues.department }}</li>
+</ul>
+Has been raised. Please <a href="{{ url_for('main.home_page', _external=True) }}">view</a> the details and notify me when solved.
 
 <p> Regards, </p>
-<p> Saulu Admin {{ current_user.user }}</p>
+<p> Saulu Admin {{ current_user.username }}</p>

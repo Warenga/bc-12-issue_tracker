@@ -2,15 +2,14 @@
 
 <p> This is to notify you that {{ issues.department }} admin
 has viewed and responded to your issue: </p>
+<ul>
+	<strong>issue id: </strong> {{ issues.id }}
+	<strong>issue: </strong> {{ issues.title }}
 	<br>
-	<strong>issue id: </strong> <h4>{{ issues.id }}</h4> 
-	<br>
-	<strong>issue: </strong> <h4>{{ issues.title }}</h4>
-	<br>
-	<strong>sent to: </strong> <h4>{{ issues.department }}</h4>
-<br>
+	<strong>sent to: </strong> {{ issues.department }}
+<ul>
 
-To view response go to <a href="{{ url_for('main.homepage', _external=True) }}">Here</>
+To view response go to <a href="{{ url_for('main.home_page', _external=True) }}">Here</>
 
 
 <p> Regards, </p>

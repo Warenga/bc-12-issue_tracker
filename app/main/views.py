@@ -9,7 +9,7 @@ from ..email import notify_user, assign_issue
 
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
-def homepage():
+def home_page():
 	if current_user.role.id == 1:
 		open_issues = (Issues.query 
 						.filter_by(department=current_user.department)
@@ -51,7 +51,7 @@ def new_issue():
 		db.session.add(state)
 		db.session.commit()
 		flash('You issue has been raised. You shall get feedback soon')
-		return redirect(url_for('.homepage'))
+		return redirect(url_for('.home_page'))
 	return render_template('new_issue.html', issue_form=issue_form)
 
 @main.route('/state/<int:id>', methods=['GET', 'POST'])
@@ -79,7 +79,7 @@ def check_issues(id):
 		db.session.commit()
 		notify_user(issue)
 		assign_issue(issue)
-		return redirect(url_for('.homepage'))
+		return redirect(url_for('.home_page'))
 	return render_template('check_issue.html', issues=[issue], check_form=check_form)
 
 @main.route('/issue/progress/<int:id>', methods=['GET', 'POST'])
@@ -96,8 +96,10 @@ def resolve(id):
 			issue.state = 'open'
 		db.session.add(issue)
 		db.session.commit()
-		return redirect(url_for('.homepage'))
+		return redirect(url_for('.home_page'))
 	return render_template('home.html', issues=[issue], resolve_form=resolve_form)
+
+
 
 
 
