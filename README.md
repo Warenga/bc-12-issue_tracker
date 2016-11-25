@@ -39,6 +39,15 @@ Click <a href="http://saulu.herokuapp.com"> here</a> to view the staged version.
 ----------------------------------------------
 	
 	1. Twitter login works but cannot view issues as role id is not assigned.
+
+### Admin Login Details
+----------------------------------------------
+To login as Admin the username is admin_<department> password <department>.
+for example Sales department: username = <i>admin_sale</i> password = <i>sale</i>
+
+Super Admin:
+username = super
+password = super
 	
 
 ### Run it locally
