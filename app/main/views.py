@@ -40,7 +40,10 @@ def home_page():
 def home_social():
 	role_form = RoleForm()
 	if role_form.validate_on_submit():
-		user = User(role=role_form.role.data)
+		user = User(role_id=role_form.role.data)
+		db.session.add(user)
+		db.session.commit()
+		return redirect(url_for('.home_page'))
 	return render_template('specify.html', role_form=role_form)
 
 @main.route('/new_issue', methods=['GET', 'POST'])

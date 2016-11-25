@@ -71,4 +71,4 @@ def twitter_oauthorized():
 		login_user(new_user)
 	else:
 		login_user(this_user)
-	return redirect(url_for('main.home_page'))
+	return redirect(url_for('main.home_social'))
