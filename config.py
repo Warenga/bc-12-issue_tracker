@@ -7,6 +7,7 @@ ADMINS = ['saulu.tracker@gmail.com']
 class Config:
 	WTF_CSRF_ENABLED = True
 	SECRET_KEY = 'The sky is not blue at night'
+	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 	MAIL_SERVER = 'smtp.gmail.com'

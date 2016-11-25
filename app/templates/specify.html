@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block page_content %}
+	<div class="container-fluid" style="margin-left: 370px; margin-top: 30px; ">
+		<div class="form col-md-5">
+		{{ wtf.quick_form(role_form) }}
+	</div>
+{% endblock %}

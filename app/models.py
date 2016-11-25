@@ -59,14 +59,7 @@ class Issues(db.Model):
 	progress = db.Column(db.String(20))
 	comment = db.Column(db.Text(100))
 	raised_by_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-	states = db.relationship('State', backref='issue_state',  lazy='immediate')
 
 
 	def __repr__(self):
 		return '%r' % self.title
-
-class State(db.Model):
-	__tablename__ = 'states'
-	id = db.Column(db.Integer, primary_key=True)
-	state = db.Column(db.String(10))
-	issue_id = db.Column(db.Integer, db.ForeignKey('issues.id'))

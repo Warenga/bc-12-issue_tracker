@@ -1,4 +1,5 @@
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash, session
+from . import auth, twitter
 from . import auth
 from .. import db
 from ..models import User
@@ -6,9 +7,6 @@ from .forms import SigninForm, SignupForm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
 @auth.route('/')
-def landing_page():
-	return render_template('landing_page.html')
-
 @auth.route('/sign_in', methods=['GET', 'POST'])
 def login():
 	user_form = SigninForm()
@@ -42,3 +40,35 @@ def sign_up():
 def sign_out():
 	logout_user()
 	return redirect(url_for('auth.login'))
+
+@twitter.tokengetter
+def get_twitter_token():
+	if 'twitter oauth' in session:
+		resp = session['twitter_oauth']
+		return resp['oauth_token'], resp['oauth_token_secret']
+
+@auth.route('/twitter-login')
+def twitter_login():
+	callback_url = url_for(
+		'auth.twitter_oauthorized',
+		next= request.args.get('next'))
+	return twitter.authorize(callback=callback_url or request.referrer or None)
+
+@auth.route('/oauthorized')
+def twitter_oauthorized():
+	resp = twitter.authorized_response()
+	if resp is None:
+		flash('You denied the request to sign in')
+		redirect(url_for('main.login'))
+	else:
+		session['twitter_oauth']= resp
+	this_user = User.query.filter_by(username=resp['screen_name']).first()
+	if this_user is None:
+		new_user = User(username=resp['screen_name'],
+			password=resp['oauth_token_secret'])
+		db.session.add(new_user)
+		db.session.commit()
+		login_user(new_user)
+	else:
+		login_user(this_user)
+	return redirect(url_for('main.home_page'))

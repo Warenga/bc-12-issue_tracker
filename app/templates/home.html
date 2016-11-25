@@ -17,6 +17,21 @@
 					<a href="{{ url_for( 'main.home_page') }}" class="btn btn-warning">View my issues</a>
 				</li>
 			</ul>
+			{% elif current_user.role.id == 4 %}
+			<ul class="nav nav-tabs">
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.home_page') }}" class="btn btn-warning">View all issues</a>
+				</li>
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.view') }}" class="btn btn-warning">View trainer and admins</a>
+				</li>
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.add_trainer') }}" class="btn btn-warning">Add fixer</a>
+				</li>
+				<li role='presentation'>
+					<a href="{{ url_for( 'main.add_admin') }}" class="btn btn-warning">Add admin</a>
+				</li>
+			</ul>
 			{% else %}
 			<ul class="nav nav-tabs">
 				<li role='presentation'>
@@ -39,6 +54,7 @@
 		<table class="table"> 
 				<thead>
 					<tr>
+						<th>Issue data</th>
 						<th>Title</th>
 						<th>Description</th>
 						<th>Department</th>
@@ -57,6 +73,7 @@
 				<tbody>
 				{% if current_user.role.id == 3 %}
 					<tr>
+						<td>{{ moment(issue.issued_time) }}</td>
 						<td>{{ issue.title }}</td>
 						{% if issue.description %}
 							<td>{{ issue.description }}</td>
@@ -82,6 +99,7 @@
 					</tr>
 				{% else %}
 					<tr>
+						<td>{{ moment(issue.issued_time) }}</td>
 						<td>{{ issue.title }}</td>
 						{% if issue.description %}
 							<td>{{ issue.description }}</td>
@@ -126,6 +144,7 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th>Issued time</th>
 					<th>Title</th>
 					<th>Description</th>
 					<th>Department</th>
@@ -139,6 +158,7 @@
 			<tbody>
 			{% if current_user.role.id == 3 %}
 				<tr>
+					<td>{{ moment(issue.issued_time) }}</td>
 					<td>{{ issue.title }}</td>
 					{% if issue.description %}
 						<td>{{ issue.description }}</td>
@@ -164,6 +184,7 @@
 				</tr>
 			{% else %}
 				<tr>
+					<td>{{ moment(issue.issued_time) }}</td>
 					<td>{{ issue.title }}</td>
 					{% if issue.description %}
 						<td>{{ issue.description }}</td>

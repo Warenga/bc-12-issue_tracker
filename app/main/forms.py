@@ -36,3 +36,17 @@ class ResolveForm(Form):
 	progress = StringField('Progress')
 	submit = SubmitField('Submit')
 
+class SuperForm(Form):
+	username = StringField('Username', validators=[Required(), Length(1, 30)])
+	email = StringField('Email', validators=[Required(), Length(1, 50), Email()])
+	password = PasswordField('Password', validators=[Required(), EqualTo('confirm_password')])
+	confirm_password = PasswordField('Confirm Password', validators=[Required()])
+	department = SelectField('Department', choices = [('Operations','Operations'), ('Finance','Finance'),
+									('Training','Training'), ('Recruitment','Recruitment'),
+									('Success','Success'), ('Sales','Sales'),
+									('Marketing','Marketing')])
+	submit = SubmitField('Sign up')
+
+class RoleForm(Form):
+	role = StringField('Role')
+	submit = SubmitField('Submit')

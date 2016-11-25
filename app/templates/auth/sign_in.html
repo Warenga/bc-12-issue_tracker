@@ -37,7 +37,11 @@
 								<a href="{{ url_for('auth.sign_up') }}">Sign up</a>
 							</p>
 							{% endif %}	
-			    		
+
+							<a href="{{url_for('auth.twitter_login')}}" class="btn btn-block btn-social btn-twitter">
+								<span class="fa fa-twitter"></span>
+									Login with Twitter
+							</a>
 			    		</form>
 			    	</div>
 	    		</div>

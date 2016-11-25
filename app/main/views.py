@@ -1,8 +1,8 @@
 from flask import session, g, render_template, redirect, url_for, request, flash
 from . import main
 from .. import db
-from ..models import Issues, State, User
-from .forms import IssueForm, MarkIssueForm, ResolveForm
+from ..models import Issues, User
+from .forms import IssueForm, MarkIssueForm, ResolveForm, SuperForm, RoleForm
 from flask.ext.login import current_user, login_required
 from .decorators import required_roles
 from ..email import notify_user, assign_issue
@@ -28,10 +28,20 @@ def home_page():
 						.filter_by(assigned_to=current_user.email)
 						.filter_by(state='closed')
 						)
+	elif current_user.role.id == 4:
+		open_issues = Issues.query.all()
+		closed_issues = Issues.query.all()
 	else:
 		open_issues = Issues.query.filter_by(state='open').all()
 		closed_issues = Issues.query.filter_by(state='closed').all()
 	return render_template('home.html', open_issues=open_issues, closed_issues=closed_issues)
+
+@main.route('/home_social', methods=['GET', 'POST'])
+def home_social():
+	role_form = RoleForm()
+	if role_form.validate_on_submit():
+		user = User(role=role_form.role.data)
+	return render_template('specify.html', role_form=role_form)
 
 @main.route('/new_issue', methods=['GET', 'POST'])
 @login_required
@@ -98,6 +108,49 @@ def resolve(id):
 		db.session.commit()
 		return redirect(url_for('.home_page'))
 	return render_template('home.html', issues=[issue], resolve_form=resolve_form)
+
+@main.route('/add_trainer', methods=['GET', 'POST'])
+@login_required
+@required_roles(4)
+def add_trainer():
+	fixer_form = SuperForm()
+	if fixer_form.validate_on_submit():
+		user = User(email=fixer_form.email.data,
+					username=fixer_form.username.data,
+					password=fixer_form.password.data,
+					department=fixer_form.department.data,
+					role_id=3)
+		db.session.add(user)
+		db.session.commit()
+		flash('Successful added')
+		return redirect(url_for('main.view'))
+	return render_template('add_fixer.html', fixer_form=fixer_form)
+
+@main.route('/add_admin', methods=['GET', 'POST'])
+@login_required
+@required_roles(4)
+def add_admin():
+	admin_form = SuperForm()
+	if admin_form.validate_on_submit():
+		user = User(email=admin_form.email.data,
+					username=admin_form.username.data,
+					password=admin_form.password.data,
+					department=admin_form.department.data,
+					role_id=1)
+		db.session.add(user)
+		db.session.commit()
+		flash('Successful added')
+		return redirect(url_for('main.view'))
+	return render_template('add_admin.html', admin_form=admin_form)
+
+@main.route('/view', methods=['GET', 'POST'])
+@login_required
+@required_roles(4)
+def view():
+	users = User.query.all()
+	return render_template('view.html', users=users)
+
+
 
 
 

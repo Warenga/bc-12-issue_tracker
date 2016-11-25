@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block page_content %}
+	<div class="container-fluid" >
+		<ul class="nav nav-tabs">
+			<li role='presentation'>
+				<a href="{{ url_for( 'main.home_page') }}" class="btn btn-warning">View all issues</a>
+			</li>
+			<li role='presentation'>
+				<a href="{{ url_for( 'main.view') }}" class="btn btn-warning">View trainer and admins</a>
+			</li>
+			<li role='presentation'>
+				<a href="{{ url_for( 'main.add_trainer') }}" class="btn btn-warning">Add fixer</a>
+			</li>
+			<li role='presentation'>
+				<a href="{{ url_for( 'main.add_admin') }}" class="btn btn-warning">Add admin</a>
+			</li>
+		</ul>
+	</div>
+	<div class="container-fluid" style="margin-left: 370px; margin-top: 30px; ">
+		<div class="header">
+			Add Fixer
+		</div>
+		<div class="form col-md-5">
+		{{ wtf.quick_form(fixer_form) }}
+	</div>
+	</div>
+
+{% endblock %}
