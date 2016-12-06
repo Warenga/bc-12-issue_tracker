@@ -42,7 +42,7 @@ Click <a href="http://saulu.herokuapp.com"> here</a> to view the staged version.
 
 ### Admin Login Details
 ----------------------------------------------
-To login as Admin the username is admin_<department> password <department>.
+To login as Admin the username is <i>admin_department</i> and password is <i>department</i>.
 for example Sales department: username = <i>admin_sale</i> password = <i>sale</i>
 
 Super Admin:
